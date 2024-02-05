@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>WpfCommonValueConverters</PackageId>
+		<Version>1.0.0.2</Version>
+		<PackageTags>Wpf ValueConverter compute expresion</PackageTags>
+		<Authors>sqlite-me</Authors>
+		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/sqlite-me/WPFValueConverters</RepositoryUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Description>
+			Wpf Expression common value converter;
+		</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+    <Compile Remove="Expressions\**" />
+    <EmbeddedResource Remove="Expressions\**" />
+    <None Remove="Expressions\**" />
+    <Page Remove="Expressions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Markup\MultiNumberConverterExtension.cs" />
+    <Compile Remove="MultiNumberConverter.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="magic.compute.expressions" Version="1.0.0.2" />
+  </ItemGroup>
+
+</Project>
