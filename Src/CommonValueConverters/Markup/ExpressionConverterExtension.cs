@@ -2,7 +2,9 @@
 
 namespace CommonValueConverters.Converters.Markup
 {
+    using Microsoft.Windows.Input;
     using System;
+    using System.Windows.Input;
     using System.Windows.Markup;
 
     /// <summary>
@@ -35,12 +37,12 @@ namespace CommonValueConverters.Converters.Markup
         /// <summary>
         /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
         /// </summary>
-        /// <param name="expression">
-        /// The expression.
-        /// </param>
-        public ExpressionConverterExtension(string expression)
+        /// <param name="expression"> The expression.</param>
+        /// <param name="addParameterAuto"></param>
+        public ExpressionConverterExtension(string expression, bool addParameterAuto)
         {
             this.expression = expression;
+            AddParameterAuto = addParameterAuto;
         }
 
         /// <summary>
@@ -56,6 +58,14 @@ namespace CommonValueConverters.Converters.Markup
         }
 
         /// <summary>
+        /// Gets or sets the AddParameterAuto for this <c>ExpressionConverter</c>.
+        /// </summary>
+#if !SILVERLIGHT
+        [ConstructorArgument("addParameterAuto")]
+#endif
+        public bool AddParameterAuto { get; set; }
+
+        /// <summary>
         /// Provides an instance of <see cref="ExpressionConverter"/> based on <see cref="Expression"/>.
         /// </summary>
         /// <param name="serviceProvider">
@@ -68,8 +78,8 @@ namespace CommonValueConverters.Converters.Markup
         {
             if (this.expression == null)
                 throw new InvalidOperationException("No Expression has been specified.");
-
-            return new ExpressionConverter(this.expression);
+            
+            return new ExpressionConverter(this.expression,AddParameterAuto);
         }
     }
 }

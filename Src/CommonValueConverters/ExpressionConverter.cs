@@ -243,10 +243,11 @@ namespace CommonValueConverters.Converters
         public ExpressionConverter(string expression,bool addParameterAuto)
         {
             this.Expression = expression;
+            this.AddParameterAuto = addParameterAuto;
         }
 
         /// <summary>
-        /// Gets or sets the expression for this <c>MathConverter</c>.
+        /// Gets or sets the expression for this <c>ExpressionConverter</c>.
         /// </summary>
 #if !SILVERLIGHT
         [ConstructorArgument("expression")]
@@ -266,12 +267,12 @@ namespace CommonValueConverters.Converters
         }
 
         /// <summary>
-        /// Gets or sets the expression for this <c>MathConverter</c>.
+        /// Gets or sets the AddParameterAuto for this <c>ExpressionConverter</c>.
         /// </summary>
 #if !SILVERLIGHT
         [ConstructorArgument("addParameterAuto")]
 #endif
-        public bool AddParameterAuto{get;set;}
+        public bool AddParameterAuto{get;set; }
 
         /// <summary>
         /// Attempts to convert the specified value.
