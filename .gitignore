@@ -7,3 +7,9 @@ ClientBin
 *.user
 *.[Cc]ache
 *.shfbproj_*
+/Src/.vs/WpfConverters/v17
+/Src/.vs/CommonValueConverters/FileContentIndex
+/Src/.vs/CommonValueConverters/DesignTimeBuild/.dtbcache.v2
+*.bin
+*.v2
+*.vsidx
