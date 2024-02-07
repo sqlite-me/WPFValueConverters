@@ -128,6 +128,10 @@ namespace CommonValueConverters.Converters
                 foreach (var proName in propertyPath.Split('.'))
                 {
                     var pro = expCurr.Type.GetProperty(proName);
+                    if (pro == null)
+                    {
+                        throw new InvalidOperationException($"invalid path:({type.FullName}){propertyPath}");
+                    }
                     expCurr = Exp.Condition(Exp.ReferenceNotEqual(expCurr, Exp.Constant(null)), Exp.Property(expCurr, pro), Exp.Default(pro.PropertyType));
                 }
             }

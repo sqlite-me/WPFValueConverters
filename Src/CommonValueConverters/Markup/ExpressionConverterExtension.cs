@@ -38,6 +38,15 @@ namespace CommonValueConverters.Converters.Markup
         /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
         /// </summary>
         /// <param name="expression"> The expression.</param>
+        public ExpressionConverterExtension(string expression)
+        {
+            this.expression = expression;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
+        /// </summary>
+        /// <param name="expression"> The expression.</param>
         /// <param name="addParameterAuto"></param>
         public ExpressionConverterExtension(string expression, bool addParameterAuto)
         {
