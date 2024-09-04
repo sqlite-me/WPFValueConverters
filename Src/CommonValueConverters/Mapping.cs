@@ -62,5 +62,8 @@ namespace CommonValueConverters.Converters
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Mapping: Mapping<object> { }
 }

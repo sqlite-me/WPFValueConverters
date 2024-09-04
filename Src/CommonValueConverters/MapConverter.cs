@@ -163,6 +163,14 @@ namespace CommonValueConverters.Converters
             {
                 if (object.Equals(value, mapping.From))
                 {
+                    try
+                    {
+                        if (mapping.To is BindObject bindingObject)
+                        {
+                            return bindingObject.Value;
+                        }
+                    }
+                    catch { }
                     return mapping.To;
                 }
             }
@@ -177,6 +185,14 @@ namespace CommonValueConverters.Converters
             }
             else
             {
+                try
+                {
+                    if (FallbackValue is BindObject bindingObject)
+                    {
+                        return bindingObject.Value;
+                    }
+                }
+                catch { }
                 return this.FallbackValue;
             }
         }
@@ -219,6 +235,14 @@ namespace CommonValueConverters.Converters
             }
             else
             {
+                try
+                {
+                    if (FallbackValue is BindObject bindingObject)
+                    {
+                        return bindingObject.Value;
+                    }
+                }
+                catch { }
                 return this.FallbackValue;
             }
         }
