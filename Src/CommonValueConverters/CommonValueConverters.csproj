@@ -9,7 +9,7 @@
 
 	<PropertyGroup>
 		<PackageId>WpfCommonValueConverters</PackageId>
-		<Version>1.0.0.4</Version>
+		<Version>1.0.0.6</Version>
 		<PackageTags>Wpf ValueConverter compute expresion</PackageTags>
 		<Authors>sqlite-me</Authors>
 		<!--<PackageReadmeFile>README.md</PackageReadmeFile>-->
@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="magic.compute.expressions" Version="1.0.0.3" />
+    <PackageReference Include="magic.compute.expressions" Version="1.*"/>
   </ItemGroup>
 
 </Project>
