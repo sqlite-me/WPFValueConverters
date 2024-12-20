@@ -55,6 +55,45 @@ namespace CommonValueConverters.Converters.Markup
         }
 
         /// <summary>
+        /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
+        /// </summary>
+        /// <param name="expression"> The expression.</param>
+        /// <param name="convertBackExpression"></param>
+        public ExpressionConverterExtension(string expression, string convertBackExpression)
+        {
+            this.expression = expression;
+            this.convertBackExpression = convertBackExpression;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
+        /// </summary>
+        /// <param name="expression"> The expression.</param>
+        /// <param name="convertBackExpression"></param>
+        /// <param name="addParameterAuto"></param>
+        public ExpressionConverterExtension(string expression, string convertBackExpression, bool addParameterAuto)
+        {
+            this.expression = expression;
+            this.convertBackExpression = convertBackExpression;
+            AddParameterAuto = addParameterAuto;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ExpressionConverterExtension class with the given expression.
+        /// </summary>
+        /// <param name="expression"> The expression.</param>
+        /// <param name="convertBackExpression"></param>
+        /// <param name="addParameterAuto"></param>
+        /// <param name="convertBackAddParameterAuto"></param>
+        public ExpressionConverterExtension(string expression, string convertBackExpression, bool addParameterAuto, bool convertBackAddParameterAuto)
+        {
+            this.expression = expression;
+            this.convertBackExpression = convertBackExpression;
+            AddParameterAuto = addParameterAuto;
+            ConvertBackAddParameterAuto = convertBackAddParameterAuto;
+        }
+
+        /// <summary>
         /// Gets or sets the expression to use in the <see cref="ExpressionConverter"/>.
         /// </summary>
 #if !SILVERLIGHT
@@ -75,6 +114,27 @@ namespace CommonValueConverters.Converters.Markup
         public bool AddParameterAuto { get; set; }
 
         /// <summary>
+        /// Gets or sets the expression to use in the <see cref="ExpressionConverter"/>.
+        /// </summary>
+#if !SILVERLIGHT
+        [ConstructorArgument("convertBackExpression")]
+#endif
+        public string ConvertBackExpression
+        {
+            get { return this.convertBackExpression; }
+            set { this.convertBackExpression = value; }
+        }
+        string convertBackExpression;
+
+        /// <summary>
+        /// Gets or sets the AddParameterAuto for this <c>ExpressionConverter</c>.
+        /// </summary>
+#if !SILVERLIGHT
+        [ConstructorArgument("convertBackAddParameterAuto")]
+#endif
+        public bool ConvertBackAddParameterAuto { get; set; }
+
+        /// <summary>
         /// Provides an instance of <see cref="ExpressionConverter"/> based on <see cref="Expression"/>.
         /// </summary>
         /// <param name="serviceProvider">
@@ -87,8 +147,8 @@ namespace CommonValueConverters.Converters.Markup
         {
             if (this.expression == null)
                 throw new InvalidOperationException("No Expression has been specified.");
-            
-            return new ExpressionConverter(this.expression,AddParameterAuto);
+
+            return new ExpressionConverter(this.expression, AddParameterAuto, this.convertBackExpression, ConvertBackAddParameterAuto);
         }
     }
 }

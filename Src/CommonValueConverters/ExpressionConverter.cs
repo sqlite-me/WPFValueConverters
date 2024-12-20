@@ -222,6 +222,9 @@ namespace CommonValueConverters.Converters
         private string? expression;
         private MExpression mExpression;
 
+        private string? convertBackExpression;
+        private MExpression mConvertBackExpression;
+
         /// <summary>
         /// Initializes a new instance of the ExpressionConverter class.
         /// </summary>
@@ -244,6 +247,12 @@ namespace CommonValueConverters.Converters
         {
             this.Expression = expression;
             this.AddParameterAuto = addParameterAuto;
+        }
+
+        public ExpressionConverter(string expression, bool addParameterAuto, string convertBackExpression, bool convertBackAddParameterAuto) : this(expression, addParameterAuto)
+        {
+            ConvertBackExpression = convertBackExpression;
+            ConvertBackAddParameterAuto = convertBackAddParameterAuto;
         }
 
         /// <summary>
@@ -275,6 +284,30 @@ namespace CommonValueConverters.Converters
         public bool AddParameterAuto{get;set; }
 
         /// <summary>
+        /// Gets or sets the expression for this <c>ExpressionConverter</c> ConvertBack.
+        /// </summary>
+#if !SILVERLIGHT
+        [ConstructorArgument("expression")]
+#endif
+        public string ConvertBackExpression
+        {
+            get => convertBackExpression;
+            set
+            {
+                this.convertBackExpression = value;
+                this.mConvertBackExpression = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the ConvertBackAddParameterAuto for this <c>ExpressionConverter</c> ConvertBack.
+        /// </summary>
+#if !SILVERLIGHT
+        [ConstructorArgument("convertBackAddParameterAuto")]
+#endif
+        public bool ConvertBackAddParameterAuto { get; set; }
+
+        /// <summary>
         /// Attempts to convert the specified value.
         /// </summary>
         /// <param name="value">
@@ -295,22 +328,22 @@ namespace CommonValueConverters.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var args = AddParameterAuto ? new object[] { value, parameter } : new object[] { value };
-            return call(args);
+            return call(ref mExpression, expression, args);
         }
 
-        private object call(object[] args)
+        private object call(ref MExpression mExp, string exp, object[] args)
         {
-            if (mExpression == null)
-                mExpression = new MExpression(expression);
+            if (mExp == null)
+                mExp = new MExpression(exp);
 
-            if (mExpression.ArgsIndexs.Count>0&&( mExpression.ArgsIndexs.Count > args.Length || mExpression.ArgsIndexs.Last() >= args.Length ||
-                mExpression.ArgsIndexs.Any(t => args[t] == DependencyProperty.UnsetValue)))
+            if (mExp.ArgsIndexs.Count>0&&( mExp.ArgsIndexs.Count > args.Length || mExp.ArgsIndexs.Last() >= args.Length ||
+                mExp.ArgsIndexs.Any(t => args[t] == DependencyProperty.UnsetValue)))
             {
                 return DependencyProperty.UnsetValue;
             }
             try
             {
-                var @delegate = mExpression.GetDelegate(args, out object[] usedArgs);
+                var @delegate = mExp.GetDelegate(args, out object[] usedArgs);
                 var result = @delegate.DynamicInvoke(usedArgs);
                 return result;
             }
@@ -345,7 +378,10 @@ namespace CommonValueConverters.Converters
         /// </returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            var values = ConvertBackAddParameterAuto ? new object[] { value, parameter } : new object[] { value };
+
+            var rlt = call(ref mConvertBackExpression, convertBackExpression, values);
+            return rlt;
         }
 
 #if !SILVERLIGHT
@@ -375,7 +411,8 @@ namespace CommonValueConverters.Converters
                 tmp.Add(parameter);
                 values=tmp.ToArray();
             }
-            return call(values);
+
+            return call(ref mExpression, expression, values);
         }
 
         /// <summary>
@@ -398,7 +435,18 @@ namespace CommonValueConverters.Converters
         /// </returns>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return null;
+            var values = ConvertBackAddParameterAuto ? new object[] { value, parameter } : new object[] { value };
+
+            var rlt = call(ref mConvertBackExpression, convertBackExpression, values);
+            if (rlt is object[] array)
+            {
+                return array;
+            }
+            if (rlt == null)
+            {
+                return null;
+            }
+            return new object[] { rlt };
         }
 #endif
     }
